@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>42 Composition Techniques | ds Framework Studios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #ffffff; /* 60% White */
+            color: #000000; /* 30% Black */
+        }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #ffffff; border-left: 2px solid #000; }
+        ::-webkit-scrollbar-thumb { background: #000000; }
+        ::-webkit-scrollbar-thumb:hover { background: #dc2626; } /* 10% Red */
+
+        .brutal-shadow {
+            box-shadow: 6px 6px 0px 0px #000000;
+        }
+        .brutal-shadow:hover {
+            box-shadow: 6px 6px 0px 0px #dc2626;
+            transform: translate(-2px, -2px);
+        }
+        
+        /* Category Header Line */
+        .category-line {
+            background-image: repeating-linear-gradient(45deg, #000 0, #000 2px, transparent 2px, transparent 8px);
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen selection:bg-red-600 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="w-full border-b-4 border-black bg-white relative z-10 pt-12 pb-10 px-4">
+        <div class="max-w-5xl mx-auto flex flex-col items-center text-center">
+            
+            <!-- Logo area -->
+            <div class="mb-6 bg-white border-4 border-black brutal-shadow rounded-xl overflow-hidden p-2">
+                <!-- Updated image source to your uploaded file -->
+                <img src="ds_logo.jpg" alt="DS Production Logo" class="h-32 w-auto object-contain">
+            </div>
+
+            <!-- Titles -->
+            <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight leading-tight">
+                42 Composition <br>
+                <span class="text-white bg-red-600 px-4 py-1 border-4 border-black inline-block mt-2 transform -rotate-2">Techniques</span>
+            </h1>
+            
+            <h2 class="text-2xl md:text-3xl font-bold mt-6 bg-black text-white px-6 py-2 inline-block">
+                by ds Framework Studios
+            </h2>
+            
+            <p class="mt-8 text-lg font-medium max-w-2xl border-l-4 border-red-600 pl-4 text-left mx-auto">
+                Learn how to frame, balance, and color your photos perfectly. Click <b>"Practice This"</b> on any card to open the camera with professional grid lines!
+            </p>
+        </div>
+    </header>
+
+    <!-- Infographic Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-16" id="main-content">
+        <!-- Content gets injected here by JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t-4 border-black bg-white py-12 px-4 mt-12">
+        <div class="max-w-5xl mx-auto text-center font-bold text-xl">
+            <p>Keep your compositions simple, and tell a great story.</p>
+            <p class="text-red-600 mt-2">© ds Framework Studios</p>
+        </div>
+    </footer>
+
+    <!-- Camera Modal -->
+    <div id="camera-modal" class="hidden fixed inset-0 z-50 bg-white flex-col items-center justify-center">
+        <!-- Top Bar -->
+        <div class="w-full p-4 flex justify-between items-center bg-white border-b-4 border-black z-10">
+            <h2 id="camera-title" class="text-xl md:text-2xl font-black bg-red-600 text-white px-4 py-1 border-2 border-black brutal-shadow">
+                Composition
+            </h2>
+            <button onclick="closeCamera()" class="border-4 border-black bg-white px-4 py-1 font-bold hover:bg-black hover:text-white transition-colors brutal-shadow">
+                CLOSE X
+            </button>
+        </div>
+
+        <!-- Camera Viewfinder -->
+        <div class="relative w-full h-full flex-grow bg-black overflow-hidden flex items-center justify-center">
+            <video id="camera-feed" class="absolute inset-0 w-full h-full object-cover" autoplay playsinline></video>
+            
+            <!-- Overlay Canvas for Grids -->
+            <canvas id="camera-overlay" class="absolute inset-0 w-full h-full z-10 pointer-events-none"></canvas>
+            
+            <!-- Capture Button -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center">
+                <p class="text-white font-bold bg-black bg-opacity-50 px-3 py-1 rounded mb-4 text-sm" id="camera-hint">Align your shot</p>
+                <button onclick="takePhoto()" class="w-20 h-20 rounded-full bg-white border-4 border-black shadow-[4px_4px_0px_0px_#000] hover:bg-red-600 transition-colors flex items-center justify-center active:scale-95">
+                    <div class="w-14 h-14 rounded-full border-4 border-black bg-white transition-colors duration-200" id="shutter-inner"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Categorized Techniques with Explanation and Examples
+        const categories = [
+            {
+                name: "Grids & Guidelines",
+                desc: "Basic structural lines to place your main subjects.",
+                techniques: [
+                    { title: "Rule of Thirds", desc: "Divide the photo into 9 equal blocks using 2 horizontal and 2 vertical lines.", ex: "Example: Placing a person's eye right where two lines cross, rather than in the dead center." },
+                    { title: "Golden Ratio", desc: "A naturally occurring math ratio (Phi). It creates a grid slightly tighter towards the center than the Rule of Thirds.", ex: "Example: Framing a snail shell or positioning a distant mountain peak on the golden intersection." },
+                    { title: "Golden Triangle", desc: "Draw one line from corner to corner, and two smaller lines meeting it at exactly 90 degrees.", ex: "Example: A river flowing diagonally through the screen, with a boat placed where the lines meet." },
+                    { title: "Golden Spiral", desc: "A sweeping curve based on the Fibonacci sequence. It naturally guides the eye through the frame and lands on the main subject.", ex: "Example: A winding staircase or a curved path that leads directly to a person off-center." },
+                    { title: "Center Eye", desc: "When shooting a face up close, place their closest eye exactly in the center of your photo.", ex: "Example: A close-up portrait where the subject's right eye is exactly in the middle of the screen." },
+                    { title: "Geometric Shapes", desc: "Look for hidden triangles, circles, or squares in your scene to give it structure.", ex: "Example: Three people standing in a way that their heads form an invisible triangle." }
+                ]
+            },
+            {
+                name: "Balance & Placement",
+                desc: "How to arrange visual weight in your photos.",
+                techniques: [
+                    { title: "Symmetry", desc: "Make the left and right (or top and bottom) sides of the photo look identical.", ex: "Example: A perfectly centered photo of the Taj Mahal or a mountain reflecting in a still lake." },
+                    { title: "Asymmetry", desc: "The sides look different, but they carry the same 'visual weight' so it still feels balanced.", ex: "Example: A large, dark tree on the left balanced by a bright, glowing sun on the right." },
+                    { title: "Visual Balance", desc: "Evening out visual elements. Bright things feel heavy, dark things feel light.", ex: "Example: Placing a huge rock on one side, and balancing it with three small birds on the other side." },
+                    { title: "Rule of Odds", desc: "Use an odd number of subjects (like 3 or 5) instead of even numbers (like 2 or 4).", ex: "Example: Photographing three apples on a table looks much more natural than four apples." }
+                ]
+            },
+            {
+                name: "Space & Framing",
+                desc: "Managing the empty areas and depth around your subject.",
+                techniques: [
+                    { title: "Fill the Frame", desc: "Get extremely close so your subject takes up the entire photo with no empty space.", ex: "Example: A photo of an old man's face where you only see his eyes and wrinkles, no background." },
+                    { title: "Negative Space", desc: "Leave a massive amount of empty, blank space around your subject.", ex: "Example: A tiny bird flying in a massive, completely clear blue sky." },
+                    { title: "Rule of Space", desc: "Always leave empty room in the direction your subject is looking or moving towards.", ex: "Example: If a car is driving left, leave more empty road on the left side of the photo than the right." },
+                    { title: "Framing", desc: "Use objects in the environment to create a 'frame' around your main subject.", ex: "Example: Taking a picture of a street while looking through an old stone archway or a window." },
+                    { title: "Fore, Mid, Back", desc: "Include something in the front, the middle, and the far distance.", ex: "Example: Flowers in the front, a house in the middle, and huge mountains in the background." },
+                    { title: "Overlapping", desc: "Put objects partially over each other to prove which one is in front.", ex: "Example: A person standing slightly in front of a car, covering part of the bumper." },
+                    { title: "Scale Contrast", desc: "Place something very small next to something massive to show true size.", ex: "Example: A tiny human standing at the bottom of a gigantic waterfall." },
+                    { title: "Foreground Interest", desc: "Place something eye-catching very close to the camera to pull the viewer in.", ex: "Example: A cool-looking rock right by your feet, with a beautiful beach in the distance." }
+                ]
+            },
+            {
+                name: "Lines & Flow",
+                desc: "Using lines to guide the viewer's eyes.",
+                techniques: [
+                    { title: "Leading Lines", desc: "Use physical lines in the world to point directly at your main subject.", ex: "Example: A long wooden fence that points straight towards a farmhouse." },
+                    { title: "Implied Lines", desc: "Invisible lines created by where people are pointing or looking.", ex: "Example: Two people looking off-screen to the right makes the viewer look to the right too." },
+                    { title: "Converging Lines", desc: "Lines that meet together far away in the distance.", ex: "Example: Train tracks that get closer and closer together until they disappear on the horizon." },
+                    { title: "Diagonal Lines", desc: "Lines that run slanted across the picture to show speed or tension.", ex: "Example: A slanted shadow cutting across a wall, making the photo feel dynamic." },
+                    { title: "Horizontal Lines", desc: "Lines that run flat side-to-side. They make the photo feel calm and peaceful.", ex: "Example: A flat ocean horizon at sunset." },
+                    { title: "Vertical Lines", desc: "Lines that point straight up to show power, strength, and height.", ex: "Example: Tall trees in a forest or huge city skyscrapers reaching the top of the frame." },
+                    { title: "S & C Curves", desc: "Using natural S or C shaped curves to make a photo flow smoothly.", ex: "Example: A winding river that forms an 'S' shape as it moves through a valley." },
+                    { title: "Visual Path", desc: "Guiding the viewer's eye on a specific journey across the entire photo.", ex: "Example: Using a bright light on the left to catch the eye, leading to a path that curves to the right." }
+                ]
+            },
+            {
+                name: "Lighting & Contrast",
+                desc: "Playing with bright lights and deep shadows.",
+                techniques: [
+                    { title: "Chiaroscuro", desc: "Mixing extremely bright light directly next to extremely dark shadow.", ex: "Example: A face where one half is lit by a bright window and the other half is completely black." },
+                    { title: "High & Low Key", desc: "High Key is mostly bright/white. Low Key is mostly dark/black.", ex: "Example: High key: A white coffee cup on a white table. Low key: A black car hidden in dark shadows." },
+                    { title: "Silhouette", desc: "When the light source is behind the subject, turning the subject completely black.", ex: "Example: A person standing in front of a bright sunset, appearing only as a dark shape." }
+                ]
+            },
+            {
+                name: "Color Mastery",
+                desc: "Using color theory to create moods.",
+                techniques: [
+                    { title: "Complimentary Colors", desc: "Using exact opposite colors (like red/green or blue/orange) to create high energy.", ex: "Example: A person wearing a bright orange jacket standing against a bright blue wall." },
+                    { title: "Analogous Colors", desc: "Using colors that sit next to each other on the color wheel for a calm look.", ex: "Example: A forest photo showing only different shades of green and yellow." },
+                    { title: "Triadic Colors", desc: "Using three colors that are evenly spaced apart on the color wheel.", ex: "Example: A playground with red swings, blue slides, and yellow bars." },
+                    { title: "Warm & Cool Colors", desc: "Mixing cozy warm tones with distant cool tones.", ex: "Example: A warm, orange campfire against a cool, dark blue night sky." },
+                    { title: "Color Dominance", desc: "Letting one single color take up most of the space in your photo.", ex: "Example: A photo of a red sports car on a red bridge, with only a little grey sky." },
+                    { title: "Monochrome", desc: "Using 100% of only ONE single color (or black and white).", ex: "Example: A classic Black and White photograph focusing only on shadows and light." },
+                    { title: "Pop of Color", desc: "Making the photo mostly dull/grey, but letting one bright color stand out.", ex: "Example: A black and white rainy street, but one person is holding a bright yellow umbrella." }
+                ]
+            },
+            {
+                name: "Story & Mood",
+                desc: "Techniques that make people think and feel.",
+                techniques: [
+                    { title: "Point of View", desc: "Shooting from high above to make things look small, or down below to make things look huge.", ex: "Example: Shooting a dog from floor level to make it look like a giant." },
+                    { title: "Repetition", desc: "Repeating the same shapes or patterns over and over to create rhythm.", ex: "Example: A photo of twenty identical red windows on the side of a building." },
+                    { title: "Break the Pattern", desc: "Creating a repeating pattern, then putting one different thing inside it.", ex: "Example: A row of ten white eggs, but one egg in the middle is brown." },
+                    { title: "Dynamic Tension", desc: "Making things look like they are clashing or trapped to create an uneasy feeling.", ex: "Example: Two people looking angrily in opposite directions, standing near the edges of the photo." },
+                    { title: "Juxtaposition", desc: "Putting two total opposites next to each other to show contrast.", ex: "Example: A shiny new sports car parked next to an old, broken-down wooden cart." },
+                    { title: "Storytelling", desc: "Arranging everything in the photo so it tells a story without any words.", ex: "Example: A dropped ice cream cone on the ground with a crying child's shadow next to it." },
+                    { title: "Minimalism", desc: "Keeping it as simple as possible. Removing absolutely everything that isn't important.", ex: "Example: A completely plain white wall with one small, green leaf resting on it." }
+                ]
+            }
+        ];
+
+        let techCounter = 1;
+        const mainContent = document.getElementById('main-content');
+
+        categories.forEach(cat => {
+            // Create Category Header
+            let catHTML = `
+                <div class="mb-12 mt-16 first:mt-0">
+                    <div class="flex items-center gap-4 mb-4">
+                        <h2 class="text-3xl md:text-5xl font-black uppercase text-black bg-white inline-block pr-4">
+                            ${cat.name}
+                        </h2>
+                        <div class="flex-grow h-2 category-line"></div>
+                    </div>
+                    <p class="text-xl font-medium text-gray-700 mb-8 border-l-4 border-red-600 pl-4">${cat.desc}</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            `;
+
+            // Create Cards for this Category
+            cat.techniques.forEach(tech => {
+                const num = techCounter.toString().padStart(2, '0');
+                
+                catHTML += `
+                    <div class="bg-white border-4 border-black brutal-shadow rounded-xl p-6 relative group transition-all duration-300 flex flex-col h-full">
+                        <!-- Number Accent -->
+                        <div class="absolute -top-4 -right-4 bg-red-600 text-white font-black text-xl border-4 border-black rounded-full w-12 h-12 flex items-center justify-center group-hover:scale-110 transition-transform z-10">
+                            ${num}
+                        </div>
+                        
+                        <h3 class="text-2xl font-black mb-2 pr-6 text-black group-hover:text-red-600 transition-colors">
+                            ${tech.title}
+                        </h3>
+                        
+                        <!-- Explanation -->
+                        <div class="mb-4">
+                            <span class="bg-black text-white text-xs font-bold px-2 py-1 uppercase tracking-wider">Explanation</span>
+                            <p class="text-gray-900 font-medium leading-relaxed mt-2">
+                                ${tech.desc}
+                            </p>
+                        </div>
+
+                        <!-- Example -->
+                        <div class="mb-6 flex-grow">
+                            <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 uppercase tracking-wider">Example</span>
+                            <p class="text-gray-700 italic font-medium leading-relaxed mt-2 text-sm border-l-2 border-red-600 pl-2">
+                                ${tech.ex}
+                            </p>
+                        </div>
+
+                        <!-- Grid Lines Visual Preview -->
+                        <div class="mb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1 block">Grid Preview</span>
+                            <div class="w-full h-32 bg-gray-100 border-2 border-black rounded relative overflow-hidden flex items-center justify-center">
+                                <!-- Chota camera icon as background pattern -->
+                                <svg class="w-10 h-10 text-gray-200 absolute z-0" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
+                                <!-- The actual preview canvas -->
+                                <canvas class="preview-canvas w-full h-full relative z-10" data-title="${tech.title}"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Practice Button -->
+                        <button onclick="openCamera('${tech.title}')" class="mt-auto w-full bg-black text-white border-2 border-black py-3 font-bold hover:bg-red-600 transition-colors flex items-center justify-center gap-2 brutal-shadow">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
+                            Practice This
+                        </button>
+                    </div>
+                `;
+                techCounter++;
+            });
+
+            catHTML += `</div></div>`; // Close grid and wrapper
+            mainContent.innerHTML += catHTML;
+        });
+
+        // --- Core Drawing Logic for BOTH Preview & Camera ---
+        function drawGridPatterns(ctx, w, h, title, isPreview) {
+            ctx.clearRect(0, 0, w, h);
+            
+            if (isPreview) {
+                ctx.strokeStyle = 'rgba(220, 38, 38, 1)'; 
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+            } else {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)'; 
+                ctx.lineWidth = 1.5;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                ctx.shadowBlur = 4;
+            }
+            
+            ctx.beginPath();
+
+            if (title === "Rule of Thirds") {
+                ctx.moveTo(w/3, 0); ctx.lineTo(w/3, h);
+                ctx.moveTo(2*w/3, 0); ctx.lineTo(2*w/3, h);
+                ctx.moveTo(0, h/3); ctx.lineTo(w, h/3);
+                ctx.moveTo(0, 2*h/3); ctx.lineTo(w, 2*h/3);
+            } 
+            else if (title === "Golden Ratio") {
+                const phi1 = w * 0.381966;
+                const phi2 = w * 0.618034;
+                const phih1 = h * 0.381966;
+                const phih2 = h * 0.618034;
+                
+                ctx.moveTo(phi1, 0); ctx.lineTo(phi1, h);
+                ctx.moveTo(phi2, 0); ctx.lineTo(phi2, h);
+                ctx.moveTo(0, phih1); ctx.lineTo(w, phih1);
+                ctx.moveTo(0, phih2); ctx.lineTo(w, phih2);
+            }
+            else if (title === "Symmetry" || title === "Center Eye" || title === "Visual Balance") {
+                ctx.moveTo(w/2, 0); ctx.lineTo(w/2, h);
+                ctx.moveTo(0, h/2); ctx.lineTo(w, h/2);
+                ctx.stroke();
+                
+                if(title === "Center Eye") {
+                    ctx.beginPath();
+                    const radius = isPreview ? 15 : 30; 
+                    ctx.arc(w/2, h/2, radius, 0, 2 * Math.PI);
+                }
+            }
+            else if (title === "Golden Triangle") {
+                ctx.moveTo(0, 0); ctx.lineTo(w, h);
+                
+                const dot1 = h * h;
+                const dot2 = w * w;
+                const len2 = (w * w) + (h * h);
+                
+                const t1 = dot1 / len2;
+                const ix1 = t1 * w;
+                const iy1 = t1 * h;
+                
+                const t2 = dot2 / len2;
+                const ix2 = t2 * w;
+                const iy2 = t2 * h;
+
+                ctx.moveTo(0, h); ctx.lineTo(ix1, iy1);
+                ctx.moveTo(w, 0); ctx.lineTo(ix2, iy2);
+            }
+            else if (title === "Golden Spiral") {
+                // Mathematically perfect Fibonacci spiral and grid
+                let gw, gh;
+                if (w > h) { // Landscape
+                    gw = Math.min(w * 0.95, h * 1.618 * 0.95);
+                    gh = gw / 1.618;
+                } else { // Portrait
+                    gh = Math.min(h * 0.95, w * 1.618 * 0.95);
+                    gw = gh / 1.618;
+                }
+                
+                // Center the golden rectangle
+                let ox = (w - gw) / 2;
+                let oy = (h - gh) / 2;
+                
+                ctx.rect(ox, oy, gw, gh);
+                
+                if (w > h) { // Landscape orientation cuts and arcs
+                    let s1 = gh; 
+                    let s2 = gw - s1; 
+                    let s3 = s1 - s2; 
+                    let s4 = s2 - s3; 
+                    
+                    ctx.moveTo(ox + s1, oy); ctx.lineTo(ox + s1, oy + gh);
+                    ctx.moveTo(ox + s1, oy + s2); ctx.lineTo(ox + gw, oy + s2);
+                    ctx.moveTo(ox + s1 + s4, oy + s2); ctx.lineTo(ox + s1 + s4, oy + gh);
+                    
+                    ctx.moveTo(ox, oy + gh);
+                    ctx.arc(ox + s1, oy + gh, s1, Math.PI, 1.5 * Math.PI); 
+                    ctx.arc(ox + s1, oy + s2, s2, 1.5 * Math.PI, 2 * Math.PI); 
+                    ctx.arc(ox + s1 + s4, oy + s2, s3, 0, 0.5 * Math.PI); 
+                    ctx.arc(ox + s1 + s4, oy + s2 + s4, s4, 0.5 * Math.PI, Math.PI); 
+                } else { // Portrait orientation cuts and arcs
+                    let s1 = gw; 
+                    let s2 = gh - s1;
+                    let s3 = s1 - s2;
+                    let s4 = s2 - s3;
+
+                    ctx.moveTo(ox, oy + s1); ctx.lineTo(ox + gw, oy + s1);
+                    ctx.moveTo(ox + s3, oy + s1); ctx.lineTo(ox + s3, oy + gh);
+                    ctx.moveTo(ox, oy + s1 + s4); ctx.lineTo(ox + s3, oy + s1 + s4);
+
+                    ctx.moveTo(ox + gw, oy);
+                    ctx.arc(ox, oy, s1, 0, 0.5 * Math.PI); 
+                    ctx.arc(ox + s3, oy + s1, s2, 0.5 * Math.PI, Math.PI);
+                    ctx.arc(ox + s3, oy + s1 + s4, s3, Math.PI, 1.5 * Math.PI);
+                    ctx.arc(ox + s3 - s4, oy + s1 + s4, s4, 1.5 * Math.PI, 2 * Math.PI);
+                }
+            }
+            else if (title === "Diagonal Lines") {
+                ctx.moveTo(0, 0); ctx.lineTo(w, h);
+                ctx.moveTo(0, h); ctx.lineTo(w, 0);
+            }
+            else if (title === "Framing" || title === "Fill the Frame") {
+                ctx.rect(w * 0.15, h * 0.15, w * 0.7, h * 0.7);
+            }
+            else if (title === "Horizontal Lines" || title === "Vertical Lines") {
+                if (title === "Horizontal Lines") {
+                    ctx.moveTo(0, h/3); ctx.lineTo(w, h/3);
+                    ctx.moveTo(0, 2*h/3); ctx.lineTo(w, 2*h/3);
+                } else {
+                    ctx.moveTo(w/3, 0); ctx.lineTo(w/3, h);
+                    ctx.moveTo(2*w/3, 0); ctx.lineTo(2*w/3, h);
+                }
+            }
+            else {
+                const lineLen = isPreview ? 15 : 30;
+                ctx.moveTo(w/2, h/2 - lineLen); ctx.lineTo(w/2, h/2 + lineLen);
+                ctx.moveTo(w/2 - lineLen, h/2); ctx.lineTo(w/2 + lineLen, h/2);
+            }
+            
+            ctx.stroke();
+        }
+
+        function initPreviews() {
+            const canvases = document.querySelectorAll('.preview-canvas');
+            canvases.forEach(canvas => {
+                const title = canvas.getAttribute('data-title');
+                // BUG FIX: Parent element se width/height le rahe hain taaki desktop pe stretch na ho
+                const parent = canvas.parentElement;
+                const w = parent.clientWidth || 300;
+                const h = parent.clientHeight || 128;
+                
+                canvas.width = w;
+                canvas.height = h;
+                
+                const ctx = canvas.getContext('2d');
+                drawGridPatterns(ctx, w, h, title, true);
+            });
+        }
+
+        // BUG FIX: DOM aur layout puri tarah load hone ka wait (100ms) taaki desktop grid proper aaye
+        setTimeout(initPreviews, 100);
+        window.addEventListener('resize', initPreviews);
+
+        let currentStream = null;
+
+        async function openCamera(title) {
+            const modal = document.getElementById('camera-modal');
+            const titleEl = document.getElementById('camera-title');
+            const video = document.getElementById('camera-feed');
+            const hint = document.getElementById('camera-hint');
+            
+            titleEl.innerText = title;
+            hint.innerText = `Line up your shot for: ${title}`;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            try {
+                currentStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'environment' } 
+                });
+                video.srcObject = currentStream;
+                
+                video.onplaying = () => {
+                    drawCameraOverlay(title);
+                };
+                
+                window.onresize = () => {
+                    initPreviews();
+                    if(!modal.classList.contains('hidden')) drawCameraOverlay(title);
+                };
+            } catch (err) {
+                alert("Camera access failed bro! Please allow camera permissions to practice.");
+                closeCamera();
+            }
+        }
+
+        function closeCamera() {
+            const modal = document.getElementById('camera-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                currentStream = null;
+            }
+            window.onresize = initPreviews;
+        }
+
+        function drawCameraOverlay(title) {
+            const video = document.getElementById('camera-feed');
+            const canvas = document.getElementById('camera-overlay');
+            const ctx = canvas.getContext('2d');
+            
+            const w = video.clientWidth;
+            const h = video.clientHeight;
+            canvas.width = w;
+            canvas.height = h;
+            
+            drawGridPatterns(ctx, w, h, title, false);
+        }
+
+        function takePhoto() {
+            const video = document.getElementById('camera-feed');
+            const btnInner = document.getElementById('shutter-inner');
+            
+            btnInner.classList.add('bg-red-600');
+            setTimeout(() => btnInner.classList.remove('bg-red-600'), 150);
+
+            const captureCanvas = document.createElement('canvas');
+            captureCanvas.width = video.videoWidth;
+            captureCanvas.height = video.videoHeight;
+            const ctx = captureCanvas.getContext('2d');
+            
+            ctx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
+            
+            const dataURL = captureCanvas.toDataURL('image/jpeg', 1.0);
+            const a = document.createElement('a');
+            const timestamp = new Date().getTime();
+            a.href = dataURL;
+            a.download = `DS_Studios_Composition_${timestamp}.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            const overlay = document.getElementById('camera-overlay');
+            const oldColor = overlay.style.backgroundColor;
+            overlay.style.backgroundColor = 'rgba(255,255,255,0.9)';
+            setTimeout(() => {
+                overlay.style.backgroundColor = oldColor;
+            }, 100);
+        }
+    </script>
+</body>
+</html>
